@@ -1,0 +1,65 @@
+CREATE TABLE student (
+	id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+	student_id INT(30) NOT NULL UNIQUE,
+	first_name VARCHAR(30) NOT NULL,
+	last_name VARCHAR(30) NOT NULL,
+	password VARCHAR(64) NOT NULL,
+	active BOOLEAN NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE teacher (
+	id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+	username VARCHAR(30) NOT NULL UNIQUE,
+	first_name VARCHAR(30) NOT NULL,
+	last_name VARCHAR(30) NOT NULL,
+	password VARCHAR(64) NOT NULL,
+	active BOOLEAN NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE admin (
+	id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+	username VARCHAR(30) NOT NULL UNIQUE,
+	first_name VARCHAR(30) NOT NULL,
+	last_name VARCHAR(30) NOT NULL,
+	password VARCHAR(64) NOT NULL,
+	active BOOLEAN NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE course (
+	id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+	course_id VARCHAR(30) NOT NULL UNIQUE,
+	title VARCHAR(64) NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE class (
+	id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+	course_id INT(6) NOT NULL,
+	teacher_id INT(6) NOT NULL,
+	PRIMARY KEY (id)
+	FOREIGN KEY (course_id) REFERENCES course(id)
+	FOREIGN KEY (teacher_id) REFERENCES teacher(id)
+);
+
+CREATE TABLE test (
+	id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+	class_id INT(6) NOT NULL,
+	name VARCHAR(40) NOT NULL,
+	active BOOLEAN NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (class_id) REFERENCES class(id)
+);
+
+CREATE TABLE test_signup (
+	id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+	student_id INT(6) NOT NULL,
+	test_id INT(6) NOT NULL,
+	time_slot_id INT(6) NOT NULL;
+	PRIMARY KEY (id),
+	FOREIGN KEY (student_id) REFERENCES student(id),
+	FOREIGN KEY (test_id) REFERENCES test(id),
+	FOREIGN KEY (time_slot_id) REFERENCES time_slots(id)
+);
